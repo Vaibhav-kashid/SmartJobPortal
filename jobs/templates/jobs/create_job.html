@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Post a Job | Smart Job Portal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            background: white;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            padding: 10px 15px;
+            border-radius: 7px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-links .logout:hover {
+            background: #dc3545;
+        }
+
+        /* Container */
+
+        .container {
+            width: 92%;
+            max-width: 700px;
+            margin: 45px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 38px;
+            border-radius: 16px;
+            box-shadow: 0 5px 22px rgba(0, 0, 0, 0.07);
+            border-top: 5px solid #667eea;
+        }
+
+        /* Header */
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #222;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #777;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* Form */
+
+        form p {
+            margin-bottom: 19px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        form input,
+        form textarea,
+        form select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d8dbe2;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        form input:focus,
+        form textarea:focus,
+        form select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.10);
+        }
+
+        form textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        /* Help Text */
+
+        .helptext {
+            display: block;
+            margin-top: 5px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* Errors */
+
+        .errorlist {
+            color: #dc3545;
+            list-style: none;
+            font-size: 13px;
+            margin-top: 5px;
+            padding: 0;
+        }
+
+        /* Button */
+
+        .post-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 8px;
+        }
+
+        .post-btn:hover {
+            background: #5568d8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.25);
+        }
+
+        /* Back */
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                width: 92%;
+                margin: 30px auto;
+            }
+
+            .card {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- Navbar -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Smart Job Portal
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'recruiter_dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'recruiter_jobs' %}">
+                My Jobs
+            </a>
+
+            <a href="{% url 'logout' %}" class="logout">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Create Job -->
+
+    <div class="container">
+
+        <div class="card">
+
+
+            <div class="header">
+
+                <h1>
+                    Post a New Job
+                </h1>
+
+                <p>
+                    Create a job opportunity and find the right candidate
+                </p>
+
+            </div>
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+
+                <button
+                    type="submit"
+                    class="post-btn">
+
+                    Post Job
+
+                </button>
+
+            </form>
+
+
+            <a
+                href="{% url 'recruiter_jobs' %}"
+                class="back">
+
+                ← Back to My Jobs
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

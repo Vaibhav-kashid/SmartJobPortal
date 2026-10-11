@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | Smart Job Portal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f5f7fb;
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 450px;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 16px;
+
+            border: 1px solid #eee;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            text-align: center;
+
+            color: #4f46e5;
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #777;
+
+            margin-bottom: 28px;
+
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-weight: bold;
+
+            color: #333;
+        }
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #4f46e5;
+
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .errorlist {
+            list-style: none;
+
+            color: #dc3545;
+
+            font-size: 13px;
+
+            margin-top: 5px;
+        }
+
+        .general-error {
+            background: #fff0f0;
+
+            color: #dc3545;
+
+            padding: 11px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+        }
+
+        .register-btn {
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .register-btn:hover {
+            background: #4338ca;
+
+            transform: translateY(-1px);
+
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.25);
+        }
+
+        .login-link {
+            text-align: center;
+
+            margin-top: 22px;
+
+            font-size: 14px;
+
+            color: #666;
+        }
+
+        .login-link a {
+            color: #4f46e5;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            text-align: center;
+
+            margin-top: 14px;
+
+            font-size: 13px;
+        }
+
+        .back-home a {
+            color: #777;
+
+            text-decoration: none;
+        }
+
+        .back-home a:hover {
+            color: #4f46e5;
+        }
+
+        @media (max-width: 480px) {
+
+            .register-container {
+                padding: 28px 22px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="register-container">
+
+    <div class="logo">
+        Smart Job Portal
+    </div>
+
+    <p class="subtitle">
+        Create your account and start your career journey
+    </p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+
+            <div class="general-error">
+                {{ form.non_field_errors }}
+            </div>
+
+        {% endif %}
+
+        <div class="form-group">
+
+            <label for="{{ form.username.id_for_label }}">
+                Username
+            </label>
+
+            {{ form.username }}
+
+            {{ form.username.errors }}
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="{{ form.email.id_for_label }}">
+                Email
+            </label>
+
+            {{ form.email }}
+
+            {{ form.email.errors }}
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="{{ form.password.id_for_label }}">
+                Password
+            </label>
+
+            {{ form.password }}
+
+            {{ form.password.errors }}
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="{{ form.role.id_for_label }}">
+                Register As
+            </label>
+
+            {{ form.role }}
+
+            {{ form.role.errors }}
+
+        </div>
+
+        <button
+            type="submit"
+            class="register-btn">
+
+            Create Account
+
+        </button>
+
+    </form>
+
+    <div class="login-link">
+
+        Already have an account?
+
+        <a href="{% url 'login' %}">
+            Login
+        </a>
+
+    </div>
+
+    <div class="back-home">
+
+        <a href="{% url 'home' %}">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

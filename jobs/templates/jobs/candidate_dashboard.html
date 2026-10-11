@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Candidate Dashboard | Smart Job Portal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            color: #333;
+        }
+
+        .navbar {
+            background: white;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            padding: 10px 15px;
+            color: #555;
+            border-radius: 7px;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .nav a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav .logout:hover {
+            background: #dc3545;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 45px auto;
+        }
+
+        .welcome-section {
+            margin-bottom: 35px;
+        }
+
+        .welcome-section h1 {
+            margin: 0 0 8px;
+            font-size: 34px;
+            color: #222;
+        }
+
+        .subtitle {
+            color: #777;
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+            transition: 0.3s;
+            border-left: 4px solid #667eea;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.10);
+        }
+
+        .card p {
+            color: #777;
+            margin: 0;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .card h2 {
+            font-size: 34px;
+            color: #667eea;
+            margin: 12px 0 0;
+        }
+
+        .card:nth-child(2) {
+            border-left-color: #ffc107;
+        }
+
+        .card:nth-child(2) h2 {
+            color: #d39e00;
+        }
+
+        .card:nth-child(3) {
+            border-left-color: #0d6efd;
+        }
+
+        .card:nth-child(3) h2 {
+            color: #0d6efd;
+        }
+
+        .card:nth-child(4) {
+            border-left-color: #198754;
+        }
+
+        .card:nth-child(4) h2 {
+            color: #198754;
+        }
+
+        .card:nth-child(5) {
+            border-left-color: #dc3545;
+        }
+
+        .card:nth-child(5) h2 {
+            color: #dc3545;
+        }
+
+        .recent-section {
+            margin-top: 15px;
+        }
+
+        .section-header {
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #222;
+        }
+
+        .application-card {
+            background: white;
+            padding: 22px 25px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .application-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.09);
+        }
+
+        .job-info h3 {
+            margin: 0 0 8px;
+            color: #222;
+            font-size: 18px;
+        }
+
+        .job-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .job-info small {
+            color: #999;
+        }
+
+        .status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status.shortlisted {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status.selected {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status.rejected {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .no-applications {
+            background: white;
+            padding: 35px;
+            text-align: center;
+            border-radius: 12px;
+            color: #777;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        .no-applications h3 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 35px;
+            padding-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            margin: 5px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .browse-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .browse-btn:hover {
+            background: #5568d8;
+            transform: translateY(-2px);
+        }
+
+        .applications-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .applications-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 800px) {
+
+            .navbar {
+                padding: 18px 25px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .application-card {
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                width: 92%;
+                margin: 30px auto;
+            }
+
+            .welcome-section h1 {
+                font-size: 28px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .application-card {
+                flex-direction: column;
+            }
+
+            .status {
+                align-self: flex-start;
+            }
+
+            .btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="navbar">
+
+        <div class="logo">
+            Smart Job Portal
+        </div>
+
+        <div class="nav">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'job_list' %}">
+                Browse Jobs
+            </a>
+
+            <a href="{% url 'my_applications' %}">
+                My Applications
+            </a>
+
+            <a href="{% url 'logout' %}" class="logout">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <div class="welcome-section">
+
+            <h1>
+                Welcome, {{ user.username }} 👋
+            </h1>
+
+            <p class="subtitle">
+                Track your job applications and career opportunities
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <p>
+                    Total Applications
+                </p>
+
+                <h2>
+                    {{ total_applications }}
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    Pending
+                </p>
+
+                <h2>
+                    {{ pending }}
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    Shortlisted
+                </p>
+
+                <h2>
+                    {{ shortlisted }}
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    Selected
+                </p>
+
+                <h2>
+                    {{ selected }}
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <p>
+                    Rejected
+                </p>
+
+                <h2>
+                    {{ rejected }}
+                </h2>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="recent-section">
+
+
+            <div class="section-header">
+
+                <h2>
+                    Recent Applications
+                </h2>
+
+            </div>
+
+
+            {% if recent_applications %}
+
+
+                {% for application in recent_applications %}
+
+
+                    <div class="application-card">
+
+
+                        <div class="job-info">
+
+                            <h3>
+                                {{ application.job.title }}
+                            </h3>
+
+                            <p>
+                                {{ application.job.company_name }}
+                                •
+                                {{ application.job.location }}
+                            </p>
+
+                            <small>
+                                Applied on
+                                {{ application.applied_at|date:"d M Y" }}
+                            </small>
+
+                        </div>
+
+
+                        <div class="status {{ application.status|lower }}">
+
+                            {{ application.status }}
+
+                        </div>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <div class="no-applications">
+
+                    <h3>
+                        No Applications Yet
+                    </h3>
+
+                    <p>
+                        Your job applications will appear here after you apply.
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+        <div class="buttons">
+
+
+            <a
+                href="{% url 'job_list' %}"
+                class="btn browse-btn">
+
+                Browse Jobs
+
+            </a>
+
+
+            <a
+                href="{% url 'my_applications' %}"
+                class="btn applications-btn">
+
+                My Applications
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

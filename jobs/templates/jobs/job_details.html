@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ job.title }} | Smart Job Portal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            background: white;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            padding: 10px 15px;
+            border-radius: 7px;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-links .logout:hover {
+            background: #dc3545;
+        }
+
+        /* Main */
+
+        .container {
+            width: 92%;
+            max-width: 900px;
+            margin: 45px auto;
+        }
+
+        .job-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 5px 22px rgba(0, 0, 0, 0.07);
+            border-top: 5px solid #667eea;
+        }
+
+        /* Header */
+
+        .job-header {
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 30px;
+        }
+
+        .job-title {
+            font-size: 36px;
+            color: #222;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .company {
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+
+        .location {
+            display: inline-block;
+            background: #f4f5f9;
+            color: #666;
+            padding: 8px 13px;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        /* Sections */
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 19px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 15px;
+            white-space: pre-line;
+        }
+
+        /* Salary */
+
+        .salary {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        /* Actions */
+
+        .actions {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 23px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .apply-btn {
+            background: #667eea;
+        }
+
+        .apply-btn:hover {
+            background: #5568d8;
+            transform: translateY(-2px);
+        }
+
+        .applicants-btn {
+            background: #28a745;
+        }
+
+        .applicants-btn:hover {
+            background: #1e7e34;
+            transform: translateY(-2px);
+        }
+
+        /* Already Applied */
+
+        .applied {
+            display: inline-block;
+            padding: 12px 23px;
+            background: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #a3cfbb;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        /* Back */
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                width: 92%;
+                margin: 30px auto;
+            }
+
+            .job-card {
+                padding: 25px 20px;
+            }
+
+            .job-title {
+                font-size: 28px;
+            }
+
+            .company {
+                font-size: 16px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn,
+            .applied {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- Navbar -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Smart Job Portal
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'job_list' %}">
+                Jobs
+            </a>
+
+            <a href="{% url 'logout' %}" class="logout">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Job Details -->
+
+    <div class="container">
+
+        <div class="job-card">
+
+
+            <!-- Job Header -->
+
+            <div class="job-header">
+
+                <h1 class="job-title">
+                    {{ job.title }}
+                </h1>
+
+                <div class="company">
+                    {{ job.company_name }}
+                </div>
+
+                <div class="location">
+                    📍 {{ job.location }}
+                </div>
+
+            </div>
+
+
+            <!-- Description -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Job Description
+                </div>
+
+                <p>
+                    {{ job.description }}
+                </p>
+
+            </div>
+
+
+            <!-- Skills -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Required Skills
+                </div>
+
+                <p>
+                    {{ job.required_skills }}
+                </p>
+
+            </div>
+
+
+            <!-- Salary -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Salary
+                </div>
+
+                <span class="salary">
+                    💰 {{ job.salary }}
+                </span>
+
+            </div>
+
+
+            <!-- Actions -->
+
+            <div class="actions">
+
+                {% if user.is_authenticated %}
+
+                    {% if user_role == 'candidate' %}
+
+                        {% if already_applied %}
+
+                            <span class="applied">
+                                ✓ Already Applied
+                            </span>
+
+                        {% else %}
+
+                            <a
+                                href="{% url 'apply_job' job.id %}"
+                                class="btn apply-btn">
+
+                                Apply Now
+
+                            </a>
+
+                        {% endif %}
+
+
+                    {% elif user_role == 'recruiter' %}
+
+                        {% if job.recruter == user %}
+
+                            <a
+                                href="{% url 'job_applicants' job.id %}"
+                                class="btn applicants-btn">
+
+                                View Applicants
+
+                            </a>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- Back -->
+
+            <a
+                href="{% url 'job_list' %}"
+                class="back">
+
+                ← Back to All Jobs
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

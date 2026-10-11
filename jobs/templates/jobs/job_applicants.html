@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Applicants | Smart Job Portal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            color: #333;
+        }
+
+        .navbar {
+            background: white;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            padding: 10px 15px;
+            color: #555;
+            border-radius: 7px;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-links .logout:hover {
+            background: #dc3545;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1050px;
+            margin: 45px auto;
+        }
+
+        .page-header {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+            border-left: 4px solid #667eea;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+            color: #222;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #777;
+            font-size: 15px;
+        }
+
+        .applicant-card {
+            background: white;
+            padding: 28px;
+            margin-bottom: 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+            border-left: 4px solid #667eea;
+            transition: 0.3s;
+        }
+
+        .applicant-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.10);
+        }
+
+        .candidate-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .candidate-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .candidate-label {
+            display: inline-block;
+            margin-top: 6px;
+            color: #667eea;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #f7f8fc;
+            padding: 15px;
+            border-radius: 9px;
+        }
+
+        .info-box.full {
+            grid-column: 1 / -1;
+        }
+
+        .info-label {
+            display: block;
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 15px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .resume-section {
+            margin-top: 5px;
+            margin-bottom: 22px;
+        }
+
+        .resume-link {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 10px 18px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .resume-link:hover {
+            background: #5568d8;
+            transform: translateY(-2px);
+        }
+
+        .no-resume {
+            display: inline-block;
+            margin-top: 8px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .status-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px;
+            background: #f7f8fc;
+            border-radius: 9px;
+            margin-bottom: 20px;
+        }
+
+        .status-label {
+            font-weight: bold;
+            color: #444;
+        }
+
+        .status {
+            padding: 7px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .shortlisted {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .rejected {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .selected {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .action-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 7px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .shortlist {
+            background: #667eea;
+        }
+
+        .shortlist:hover {
+            background: #5568d8;
+            transform: translateY(-2px);
+        }
+
+        .reject {
+            background: #dc3545;
+        }
+
+        .reject:hover {
+            background: #bb2d3b;
+            transform: translateY(-2px);
+        }
+
+        .select {
+            background: #28a745;
+        }
+
+        .select:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .no-applicants {
+            background: white;
+            padding: 60px 30px;
+            text-align: center;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+        }
+
+        .no-applicants h3 {
+            margin: 0 0 10px;
+            color: #333;
+            font-size: 21px;
+        }
+
+        .no-applicants p {
+            margin: 0;
+            color: #777;
+        }
+
+        .back-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 11px 22px;
+            background: white;
+            color: #667eea;
+            border: 1px solid #667eea;
+            text-decoration: none;
+            border-radius: 7px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 16px 25px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 30px auto;
+            }
+
+            .candidate-header {
+                align-items: flex-start;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-box.full {
+                grid-column: auto;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .page-header h1 {
+                font-size: 25px;
+            }
+
+            .applicant-card {
+                padding: 20px;
+            }
+
+            .candidate-header {
+                flex-direction: column;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="navbar">
+
+        <div class="logo">
+            Smart Job Portal
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'recruiter_dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'recruiter_jobs' %}">
+                My Posted Jobs
+            </a>
+
+            <a href="{% url 'logout' %}" class="logout">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <div class="page-header">
+
+            <h1>
+                Applicants for {{ job.title }}
+            </h1>
+
+            <p>
+                Review candidates and update their application status
+            </p>
+
+        </div>
+
+
+        {% for app in applications %}
+
+
+            <div class="applicant-card">
+
+
+                <div class="candidate-header">
+
+                    <div>
+
+                        <div class="candidate-name">
+                            {{ app.candidate.user.username }}
+                        </div>
+
+                        <div class="candidate-label">
+                            JOB APPLICANT
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-grid">
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Email
+                        </span>
+
+                        <div class="info-value">
+                            {{ app.candidate.user.email }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Phone
+                        </span>
+
+                        <div class="info-value">
+                            {{ app.candidate.phone }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Skills
+                        </span>
+
+                        <div class="info-value">
+                            {{ app.candidate.skills }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Education
+                        </span>
+
+                        <div class="info-value">
+                            {{ app.candidate.education }}
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="resume-section">
+
+                    <span class="info-label">
+                        Resume
+                    </span>
+
+
+                    {% if app.candidate.resume %}
+
+                        <a
+                            href="{{ app.candidate.resume.url }}"
+                            target="_blank"
+                            class="resume-link">
+
+                            View Resume
+
+                        </a>
+
+                    {% else %}
+
+                        <span class="no-resume">
+                            Resume not uploaded
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="status-section">
+
+                    <span class="status-label">
+                        Current Status:
+                    </span>
+
+
+                    {% if app.status == 'Pending' %}
+
+                        <span class="status pending">
+                            Pending
+                        </span>
+
+                    {% elif app.status == 'Shortlisted' %}
+
+                        <span class="status shortlisted">
+                            Shortlisted
+                        </span>
+
+                    {% elif app.status == 'Rejected' %}
+
+                        <span class="status rejected">
+                            Rejected
+                        </span>
+
+                    {% elif app.status == 'Selected' %}
+
+                        <span class="status selected">
+                            Selected
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="action-title">
+                    Update Application Status
+                </div>
+
+
+                <form
+                    method="POST"
+                    action="{% url 'update_application_status' app.id %}">
+
+                    {% csrf_token %}
+
+
+                    <div class="buttons">
+
+
+                        <button
+                            type="submit"
+                            name="status"
+                            value="Shortlisted"
+                            class="btn shortlist">
+
+                            Shortlist
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            name="status"
+                            value="Rejected"
+                            class="btn reject">
+
+                            Reject
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            name="status"
+                            value="Selected"
+                            class="btn select">
+
+                            Select
+
+                        </button>
+
+
+                    </div>
+
+                </form>
+
+
+            </div>
+
+
+        {% empty %}
+
+
+            <div class="no-applicants">
+
+                <h3>
+                    No Applicants Yet
+                </h3>
+
+                <p>
+                    Candidates who apply for this job will appear here.
+                </p>
+
+            </div>
+
+
+        {% endfor %}
+
+
+        <div class="back-section">
+
+            <a
+                href="{% url 'job_details' job.id %}"
+                class="back-btn">
+
+                ← Back to Job
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

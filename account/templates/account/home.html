@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Job Portal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            background: white;
+            padding: 18px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+
+            padding: 10px 15px;
+
+            border-radius: 7px;
+
+            font-weight: 500;
+
+            transition: 0.3s;
+
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-links .logout:hover {
+            background: #dc3545;
+        }
+
+        /* Hero */
+
+        .hero {
+            width: 92%;
+            max-width: 1100px;
+
+            margin: 55px auto;
+        }
+
+        .hero-content {
+            background: white;
+
+            padding: 65px 50px;
+
+            text-align: center;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.07);
+
+            border-top: 5px solid #667eea;
+        }
+
+        .welcome-icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #eef0ff;
+
+            font-size: 32px;
+        }
+
+        .hero-content h1 {
+            font-size: 40px;
+
+            color: #222;
+
+            margin-bottom: 12px;
+        }
+
+        .welcome {
+            font-size: 17px;
+
+            color: #777;
+
+            margin-bottom: 18px;
+        }
+
+        .welcome strong {
+            color: #667eea;
+        }
+
+        .role-badge {
+            display: inline-block;
+
+            padding: 8px 17px;
+
+            border-radius: 20px;
+
+            background: #eef0ff;
+
+            color: #667eea;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            margin-bottom: 30px;
+        }
+
+        .hero-content h2 {
+            font-size: 28px;
+
+            color: #333;
+
+            margin-bottom: 14px;
+        }
+
+        .description {
+            max-width: 650px;
+
+            margin: 0 auto 35px;
+
+            color: #777;
+
+            line-height: 1.7;
+
+            font-size: 16px;
+        }
+
+        /* Buttons */
+
+        .buttons {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+
+            padding: 13px 23px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .browse-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .browse-btn:hover {
+            background: #5568d8;
+
+            transform: translateY(-2px);
+        }
+
+        .applications-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .applications-btn:hover {
+            background: #218838;
+
+            transform: translateY(-2px);
+        }
+
+        .post-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .post-btn:hover {
+            background: #218838;
+
+            transform: translateY(-2px);
+        }
+
+        .my-jobs-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .my-jobs-btn:hover {
+            background: #0056b3;
+
+            transform: translateY(-2px);
+        }
+
+        .logout-btn {
+            background: #f1f2f5;
+            color: #555;
+        }
+
+        .logout-btn:hover {
+            background: #dc3545;
+
+            color: white;
+
+            transform: translateY(-2px);
+        }
+
+        /* Feature Section */
+
+        .features {
+            margin-top: 35px;
+
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .feature {
+            background: white;
+
+            padding: 25px 20px;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            box-shadow:
+                0 4px 18px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-icon {
+            font-size: 28px;
+
+            margin-bottom: 10px;
+        }
+
+        .feature h3 {
+            font-size: 17px;
+
+            margin-bottom: 7px;
+
+            color: #333;
+        }
+
+        .feature p {
+            color: #777;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 800px) {
+
+            .navbar {
+                padding: 16px 25px;
+            }
+
+            .hero {
+                margin: 35px auto;
+            }
+
+            .hero-content {
+                padding: 45px 25px;
+            }
+
+            .hero-content h1 {
+                font-size: 32px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                flex-direction: column;
+
+                gap: 12px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+            .hero {
+                width: 94%;
+            }
+
+            .hero-content {
+                padding: 40px 20px;
+            }
+
+            .hero-content h1 {
+                font-size: 28px;
+            }
+
+            .hero-content h2 {
+                font-size: 23px;
+            }
+
+            .btn {
+                width: 100%;
+
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <!-- Navbar -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Smart Job Portal
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+
+            <a href="{% url 'job_list' %}">
+                Browse Jobs
+            </a>
+
+
+            {% if user_role == 'candidate' %}
+
+                <a href="{% url 'candidate_dashboard' %}">
+                    Dashboard
+                </a>
+
+                <a href="{% url 'my_applications' %}">
+                    My Applications
+                </a>
+
+            {% endif %}
+
+
+            {% if user_role == 'recruiter' %}
+
+                <a href="{% url 'recruiter_dashboard' %}">
+                    Dashboard
+                </a>
+
+                <a href="{% url 'recruiter_jobs' %}">
+                    My Posted Jobs
+                </a>
+
+                <a href="{% url 'create_job' %}">
+                    Post a Job
+                </a>
+
+            {% endif %}
+
+
+            <a href="{% url 'logout' %}" class="logout">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Hero -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+
+            <div class="welcome-icon">
+                💼
+            </div>
+
+
+            <h1>
+                Welcome to Smart Job Portal
+            </h1>
+
+
+            <p class="welcome">
+
+                Welcome,
+                <strong>{{ user.username }}</strong>!
+
+            </p>
+
+
+            {% if user_role == 'candidate' %}
+
+
+                <div class="role-badge">
+                    Candidate
+                </div>
+
+
+                <h2>
+                    Find Your Dream Job
+                </h2>
+
+
+                <p class="description">
+
+                    Discover new career opportunities,
+                    apply for jobs and track your
+                    application status from one place.
+
+                </p>
+
+
+                <div class="buttons">
+
+                    <a
+                        href="{% url 'candidate_dashboard' %}"
+                        class="btn browse-btn">
+
+                        Dashboard
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'job_list' %}"
+                        class="btn browse-btn">
+
+                        Browse Jobs
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'my_applications' %}"
+                        class="btn applications-btn">
+
+                        My Applications
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'logout' %}"
+                        class="btn logout-btn">
+
+                        Logout
+
+                    </a>
+
+                </div>
+
+
+                <div class="features">
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            🔍
+                        </div>
+
+                        <h3>
+                            Find Jobs
+                        </h3>
+
+                        <p>
+                            Search for suitable job opportunities.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            📄
+                        </div>
+
+                        <h3>
+                            Apply Easily
+                        </h3>
+
+                        <p>
+                            Submit your applications quickly.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            📊
+                        </div>
+
+                        <h3>
+                            Track Applications
+                        </h3>
+
+                        <p>
+                            Monitor your application status.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            {% elif user_role == 'recruiter' %}
+
+
+                <div class="role-badge">
+                    Recruiter
+                </div>
+
+
+                <h2>
+                    Find the Right Candidates
+                </h2>
+
+
+                <p class="description">
+
+                    Post job opportunities,
+                    manage your jobs and review
+                    candidates who apply.
+
+                </p>
+
+
+                <div class="buttons">
+
+                    <a
+                        href="{% url 'recruiter_dashboard' %}"
+                        class="btn browse-btn">
+
+                        Dashboard
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'create_job' %}"
+                        class="btn post-btn">
+
+                        + Post a Job
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'recruiter_jobs' %}"
+                        class="btn my-jobs-btn">
+
+                        My Posted Jobs
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'job_list' %}"
+                        class="btn browse-btn">
+
+                        Browse Jobs
+
+                    </a>
+
+
+                    <a
+                        href="{% url 'logout' %}"
+                        class="btn logout-btn">
+
+                        Logout
+
+                    </a>
+
+                </div>
+
+
+                <div class="features">
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            📝
+                        </div>
+
+                        <h3>
+                            Post Jobs
+                        </h3>
+
+                        <p>
+                            Create and publish job opportunities.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            👥
+                        </div>
+
+                        <h3>
+                            Manage Applicants
+                        </h3>
+
+                        <p>
+                            Review candidates and applications.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            📊
+                        </div>
+
+                        <h3>
+                            Track Hiring
+                        </h3>
+
+                        <p>
+                            Manage application statuses easily.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+    </section>
+
+
+</body>
+
+</html>

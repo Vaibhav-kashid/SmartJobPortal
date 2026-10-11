@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Applications | Smart Job Portal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            color: #333;
+        }
+
+        .navbar {
+            background: white;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            padding: 10px 15px;
+            color: #555;
+            border-radius: 7px;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-links .logout:hover {
+            background: #dc3545;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1050px;
+            margin: 45px auto;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px;
+            font-size: 32px;
+            color: #222;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #777;
+            font-size: 16px;
+        }
+
+        .application-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+            border-left: 4px solid #667eea;
+            transition: 0.3s;
+        }
+
+        .application-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.10);
+        }
+
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            padding-bottom: 18px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .job-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 7px;
+        }
+
+        .company-name {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .shortlisted {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .rejected {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .selected {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .application-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #f7f8fc;
+            padding: 14px 16px;
+            border-radius: 8px;
+        }
+
+        .info-label {
+            display: block;
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 15px;
+        }
+
+        .application-footer {
+            padding-top: 18px;
+            border-top: 1px solid #eee;
+        }
+
+        .details-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .details-btn:hover {
+            background: #5568d8;
+            transform: translateY(-2px);
+        }
+
+        .no-applications {
+            background: white;
+            padding: 60px 30px;
+            text-align: center;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+        }
+
+        .no-applications h2 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+
+        .no-applications p {
+            color: #777;
+            margin: 0 0 25px;
+        }
+
+        .browse-btn {
+            display: inline-block;
+            padding: 12px 22px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .browse-btn:hover {
+            background: #5568d8;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 16px 25px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 30px auto;
+            }
+
+            .application-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .application-info {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .page-header h1 {
+                font-size: 27px;
+            }
+
+            .application-card {
+                padding: 20px;
+            }
+
+            .status {
+                align-self: flex-start;
+            }
+
+            .details-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+    <div class="navbar">
+
+        <div class="logo">
+            Smart Job Portal
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{% url 'home' %}">
+                Home
+            </a>
+
+            <a href="{% url 'candidate_dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'job_list' %}">
+                Browse Jobs
+            </a>
+
+            <a href="{% url 'logout' %}" class="logout">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <div class="page-header">
+
+            <h1>
+                My Applications
+            </h1>
+
+            <p>
+                Track the status of your job applications
+            </p>
+
+        </div>
+
+
+        {% for application in applications %}
+
+
+            <div class="application-card">
+
+
+                <div class="application-header">
+
+                    <div>
+
+                        <div class="job-title">
+                            {{ application.job.title }}
+                        </div>
+
+                        <div class="company-name">
+                            {{ application.job.company_name }}
+                        </div>
+
+                    </div>
+
+
+                    {% if application.status == 'Pending' %}
+
+                        <span class="status pending">
+                            Pending
+                        </span>
+
+                    {% elif application.status == 'Shortlisted' %}
+
+                        <span class="status shortlisted">
+                            Shortlisted
+                        </span>
+
+                    {% elif application.status == 'Rejected' %}
+
+                        <span class="status rejected">
+                            Rejected
+                        </span>
+
+                    {% elif application.status == 'Selected' %}
+
+                        <span class="status selected">
+                            Selected
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="application-info">
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Location
+                        </span>
+
+                        <div class="info-value">
+                            {{ application.job.location }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Applied On
+                        </span>
+
+                        <div class="info-value">
+                            {{ application.applied_at|date:"d M Y, h:i A" }}
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="application-footer">
+
+                    <a
+                        href="{% url 'job_details' application.job.id %}"
+                        class="details-btn">
+
+                        View Job Details
+
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+        {% empty %}
+
+
+            <div class="no-applications">
+
+                <h2>
+                    No Applications Yet
+                </h2>
+
+                <p>
+                    You have not applied for any job yet.
+                </p>
+
+                <a
+                    href="{% url 'job_list' %}"
+                    class="browse-btn">
+
+                    Browse Jobs
+
+                </a>
+
+            </div>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+</body>
+
+</html>
